@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('slug', 14)->unique(); // e.g. a8f9-c2e1-4b7d or 12 raw chars
+            $table->string('slug', 32)->unique();
             $table->string('language', 20)->default('typescript');
             $table->enum('status', ['waiting', 'active', 'ended'])->default('waiting');
             $table->timestamp('started_at')->nullable();
