@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paircoder — Prototype Mockup (7 Screens)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            craft: {
+              bg: '#F5F5F7',
+              card: '#FFFFFF',
+              border: 'rgba(0, 0, 0, 0.08)',
+              subtle: '#86868B',
+              dark: '#1D1D1F',
+              accent: '#0071E3',
+              accentHover: '#0077ED'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F5F5F7;
+      color: #1D1D1F;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .craft-border {
+      border: 1px solid rgba(0, 0, 0, 0.07);
+    }
+    .craft-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .craft-pill {
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOP NAV PROTO-TOGGLE BAR -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/[0.08] px-4 py-2.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-sm">
+          &lt;/&gt;
+        </div>
+        <div>
+          <span class="font-bold text-sm tracking-tight text-craft-dark">Paircoder</span>
+          <span class="text-[10px] font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full ml-1.5">Spec v1.0</span>
+        </div>
+      </div>
+
+      <!-- Segmented Screen Switcher -->
+      <nav class="flex items-center craft-pill p-1 rounded-xl overflow-x-auto hide-scrollbar text-xs font-medium">
+        <button onclick="setScreen('landing')" id="nav-landing" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 bg-white text-craft-dark shadow-sm">1. Landing</button>
+        <button onclick="setScreen('auth')" id="nav-auth" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 text-craft-subtle hover:text-craft-dark">2. Auth</button>
+        <button onclick="setScreen('dashboard')" id="nav-dashboard" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 text-craft-subtle hover:text-craft-dark">3. Dashboard</button>
+        <button onclick="setScreen('lobby')" id="nav-lobby" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 text-craft-subtle hover:text-craft-dark">4. Lobby</button>
+        <button onclick="setScreen('room')" id="nav-room" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 text-craft-subtle hover:text-craft-dark">5. Room Active</button>
+        <button onclick="setScreen('replay')" id="nav-replay" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 text-craft-subtle hover:text-craft-dark">6. Replay</button>
+        <button onclick="setScreen('scorecard')" id="nav-scorecard" class="screen-btn px-3 py-1.5 rounded-lg transition-all duration-150 text-craft-subtle hover:text-craft-dark">7. Scorecard</button>
+      </nav>
+
+      <div class="hidden sm:flex items-center gap-2 text-xs text-craft-subtle">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Reverb Relay: <strong class="text-craft-dark font-mono font-normal">Active</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="flex-1 flex flex-col">
+
+    <!-- ================= SCREEN 1: LANDING ================= -->
+    <section id="screen-landing" class="screen-view flex-1 flex flex-col justify-center px-4 py-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 border border-black/10 text-xs font-medium text-craft-dark mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+          CoderPad Alternative without $250/mo Subscriptions
+        </div>
+        <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-craft-dark leading-[1.1] mb-6">
+          Collaborative technical interviews,<br><span class="text-craft-subtle">replayable keystroke by keystroke.</span>
+        </h1>
+        <p class="text-base sm:text-lg text-craft-subtle max-w-2xl mx-auto mb-10 leading-relaxed">
+          Create a zero-latency coding room in seconds. Live CRDT synchronization, isolated Judge0 code execution, full replay scrubbing, and public shareable scorecards for hiring managers.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16">
+          <button onclick="setScreen('auth')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-craft-dark text-white font-semibold text-sm hover:bg-black transition-all shadow-md flex items-center justify-center gap-2">
+            <span>Start Interview Free</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+          <button onclick="setScreen('lobby')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white craft-border text-craft-dark font-semibold text-sm hover:bg-neutral-50 transition-all">
+            Join Room via Code
+          </button>
+        </div>
+
+        <!-- 3 Feature Pillars -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+          <div class="craft-card p-6 rounded-2xl">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg mb-4">⇄</div>
+            <h3 class="font-bold text-craft-dark mb-1">Yjs CRDT + Reverb</h3>
+            <p class="text-xs text-craft-subtle leading-relaxed">Deterministic real-time code collaboration with zero split-brain cursor conflicts.</p>
+          </div>
+          <div class="craft-card p-6 rounded-2xl">
+            <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-lg mb-4">⏮</div>
+            <h3 class="font-bold text-craft-dark mb-1">Keystroke Replay</h3>
+            <p class="text-xs text-craft-subtle leading-relaxed">Inspect how the candidate thinks: every pause, deletion, and debugging step replayable.</p>
+          </div>
+          <div class="craft-card p-6 rounded-2xl">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg mb-4">★</div>
+            <h3 class="font-bold text-craft-dark mb-1">No-Signup Scorecards</h3>
+            <p class="text-xs text-craft-subtle leading-relaxed">Generate tamper-proof public share tokens for engineering managers and stakeholders.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 2: AUTH ================= -->
+    <section id="screen-auth" class="screen-view hidden flex-1 flex items-center justify-center px-4 py-12">
+      <div class="w-full max-w-md craft-card p-8 rounded-3xl">
+        <!-- Auth Header -->
+        <div class="text-center mb-8">
+          <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center font-bold text-xl mx-auto mb-3 shadow">
+            &lt;/&gt;
+          </div>
+          <h2 class="text-2xl font-bold tracking-tight text-craft-dark">Interviewer Portal</h2>
+          <p class="text-xs text-craft-subtle mt-1">Sign in to manage rooms or conduct live sessions</p>
+        </div>
+
+        <!-- Segmented Tab -->
+        <div class="craft-pill p-1 rounded-xl flex text-xs font-semibold mb-6">
+          <button id="auth-tab-login" onclick="toggleAuthTab('login')" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-craft-dark transition-all">Sign In</button>
+          <button id="auth-tab-register" onclick="toggleAuthTab('register')" class="flex-1 py-2 rounded-lg text-craft-subtle transition-all">Create Account</button>
+        </div>
+
+        <form onsubmit="event.preventDefault(); setScreen('dashboard');" class="space-y-4">
+          <div id="auth-field-name" class="hidden">
+            <label class="block text-xs font-medium text-craft-dark mb-1">Full Name</label>
+            <input type="text" placeholder="e.g. Dimas Arya Sadewa" class="w-full px-3.5 py-2.5 rounded-xl border border-black/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-craft-dark mb-1">Work Email</label>
+            <input type="email" value="interviewer@techcorp.id" class="w-full px-3.5 py-2.5 rounded-xl border border-black/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-mono text-xs">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-medium text-craft-dark">Password</label>
+              <a href="#" class="text-[11px] text-blue-600 hover:underline">Forgot?</a>
+            </div>
+            <input type="password" value="••••••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-black/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+          </div>
+
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-craft-dark text-white font-semibold text-sm hover:bg-black transition-all shadow-sm pt-2.5">
+            Continue to Dashboard
+          </button>
+        </form>
+
+        <div class="mt-6 pt-6 border-t border-black/[0.06] text-center text-xs text-craft-subtle">
+          Candidate joining an ongoing interview? <br>
+          <button onclick="setScreen('lobby')" class="text-blue-600 font-medium hover:underline mt-1">Enter candidate room PIN &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 3: DASHBOARD ================= -->
+    <section id="screen-dashboard" class="screen-view hidden flex-1 px-4 py-8 max-w-7xl mx-auto w-full">
+      <!-- Header with Action -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-craft-dark">Interview Sessions</h1>
+          <p class="text-xs text-craft-subtle mt-0.5">Manage active coding rooms, review past replay recordings & scorecards</p>
+        </div>
+        <button onclick="setScreen('lobby')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-craft-dark text-white text-xs font-semibold hover:bg-black transition-all shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Create New Room</span>
+        </button>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div class="craft-card p-4 rounded-2xl">
+          <div class="text-xs font-medium text-craft-subtle">Total Conducted</div>
+          <div class="text-2xl font-bold font-mono text-craft-dark mt-1">24</div>
+        </div>
+        <div class="craft-card p-4 rounded-2xl">
+          <div class="text-xs font-medium text-craft-subtle">Avg. Duration</div>
+          <div class="text-2xl font-bold font-mono text-craft-dark mt-1">42m</div>
+        </div>
+        <div class="craft-card p-4 rounded-2xl">
+          <div class="text-xs font-medium text-craft-subtle">Scorecard Shared</div>
+          <div class="text-2xl font-bold font-mono text-emerald-600 mt-1">19</div>
+        </div>
+        <div class="craft-card p-4 rounded-2xl">
+          <div class="text-xs font-medium text-craft-subtle">Active Waiting</div>
+          <div class="text-2xl font-bold font-mono text-blue-600 mt-1">1</div>
+        </div>
+      </div>
+
+      <!-- Session Table -->
+      <div class="craft-card rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-black/[0.06] flex items-center justify-between bg-white">
+          <span class="text-xs font-bold uppercase tracking-wider text-craft-subtle">Recent Sessions</span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-craft-subtle">Filter:</span>
+            <select class="text-xs border border-black/10 rounded-lg px-2 py-1 bg-white focus:outline-none">
+              <option>All Status</option>
+              <option>Active</option>
+              <option>Ended</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-black/[0.02] text-craft-subtle border-b border-black/[0.06]">
+                <th class="p-3.5 font-semibold">Room Slug</th>
+                <th class="p-3.5 font-semibold">Candidate</th>
+                <th class="p-3.5 font-semibold">Language</th>
+                <th class="p-3.5 font-semibold">Status</th>
+                <th class="p-3.5 font-semibold">Conducted At</th>
+                <th class="p-3.5 font-semibold text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-black/[0.06]">
+              <tr class="hover:bg-black/[0.01] transition-colors">
+                <td class="p-3.5 font-mono font-medium text-blue-600">a8f9-c2e1-4b7d</td>
+                <td class="p-3.5 font-medium text-craft-dark">Sarah Jenkins (Frontend Lead)</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200 font-mono text-[11px]">TypeScript</span></td>
+                <td class="p-3.5"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-medium text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Waiting</span></td>
+                <td class="p-3.5 text-craft-subtle">Today, 14:15</td>
+                <td class="p-3.5 text-right space-x-2">
+                  <button onclick="setScreen('lobby')" class="px-2.5 py-1 rounded-lg bg-black text-white text-[11px] font-semibold hover:bg-neutral-800">Enter Lobby</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-black/[0.01] transition-colors">
+                <td class="p-3.5 font-mono font-medium text-neutral-600">f401-9a72-8821</td>
+                <td class="p-3.5 font-medium text-craft-dark">Budi Pratama (Backend Sr.)</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-mono text-[11px]">Python</span></td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 font-medium text-[11px]">Ended</span></td>
+                <td class="p-3.5 text-craft-subtle">Yesterday, 10:00</td>
+                <td class="p-3.5 text-right space-x-2">
+                  <button onclick="setScreen('replay')" class="px-2.5 py-1 rounded-lg craft-border bg-white text-[11px] font-semibold hover:bg-neutral-50 text-craft-dark">Replay</button>
+                  <button onclick="setScreen('scorecard')" class="px-2.5 py-1 rounded-lg craft-border bg-white text-[11px] font-semibold hover:bg-neutral-50 text-craft-dark">Scorecard</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-black/[0.01] transition-colors">
+                <td class="p-3.5 font-mono font-medium text-neutral-600">9c1b-220a-e390</td>
+                <td class="p-3.5 font-medium text-craft-dark">Alexander Wright (Fullstack)</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[11px]">Go</span></td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 font-medium text-[11px]">Ended</span></td>
+                <td class="p-3.5 text-craft-subtle">26 Sep 2026</td>
+                <td class="p-3.5 text-right space-x-2">
+                  <button onclick="setScreen('replay')" class="px-2.5 py-1 rounded-lg craft-border bg-white text-[11px] font-semibold hover:bg-neutral-50 text-craft-dark">Replay</button>
+                  <button onclick="setScreen('scorecard')" class="px-2.5 py-1 rounded-lg craft-border bg-white text-[11px] font-semibold hover:bg-neutral-50 text-craft-dark">Scorecard</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 4: ROOM LOBBY ================= -->
+    <section id="screen-lobby" class="screen-view hidden flex-1 flex items-center justify-center px-4 py-12">
+      <div class="w-full max-w-lg craft-card p-8 rounded-3xl">
+        <div class="flex items-center justify-between pb-6 border-b border-black/[0.06] mb-6">
+          <div>
+            <span class="text-[10px] font-bold tracking-wider uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Pre-Flight Lobby</span>
+            <h2 class="text-xl font-bold tracking-tight text-craft-dark mt-1">Room: <span class="font-mono text-base font-normal">a8f9-c2e1-4b7d</span></h2>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Status: Waiting
+          </span>
+        </div>
+
+        <!-- Shareable Link Box -->
+        <div class="mb-6">
+          <label class="block text-xs font-semibold text-craft-dark mb-1.5">Candidate Invitation Link</label>
+          <div class="flex items-center gap-2">
+            <input type="text" readonly value="https://paircoder.dev/room/a8f9-c2e1-4b7d/join" class="w-full px-3 py-2 bg-black/[0.02] border border-black/10 rounded-xl text-xs font-mono text-craft-dark select-all focus:outline-none">
+            <button onclick="alert('Link copied to clipboard!')" class="px-3.5 py-2 rounded-xl bg-white craft-border text-xs font-semibold hover:bg-neutral-50 shrink-0">
+              Copy
+            </button>
+          </div>
+          <p class="text-[11px] text-craft-subtle mt-1.5">Candidate clicks this link, types their name, and joins immediately without signing up.</p>
+        </div>
+
+        <!-- Setup Config -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-semibold text-craft-dark mb-1">Target Language</label>
+            <select class="w-full text-xs border border-black/10 rounded-xl p-2.5 bg-white font-mono">
+              <option>TypeScript 5.4</option>
+              <option>Python 3.12</option>
+              <option>Go 1.23</option>
+              <option>Java 21</option>
+              <option>Rust 1.80</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-craft-dark mb-1">Execution Engine</label>
+            <div class="p-2.5 rounded-xl bg-black/[0.02] border border-black/10 text-xs font-mono flex items-center justify-between">
+              <span>Judge0 Proxy</span>
+              <span class="text-emerald-600 font-sans font-medium text-[10px]">Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Presence Preview Box -->
+        <div class="p-4 rounded-2xl bg-black/[0.02] border border-black/[0.06] mb-8">
+          <div class="text-xs font-semibold text-craft-dark mb-3 flex items-center justify-between">
+            <span>Participants in Room (2 max)</span>
+            <span class="font-mono text-craft-subtle text-[11px]">1/2 Connected</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs bg-white p-2.5 rounded-xl craft-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                <span class="font-semibold text-craft-dark">Dimas Arya Sadewa</span>
+                <span class="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.2 rounded font-medium">Interviewer (You)</span>
+              </div>
+              <span class="text-emerald-600 font-medium text-[11px]">Online</span>
+            </div>
+            <div class="flex items-center justify-between text-xs bg-white/60 p-2.5 rounded-xl border border-dashed border-black/10">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+                <span class="text-craft-subtle italic">Waiting for candidate to join...</span>
+              </div>
+              <span class="text-craft-subtle text-[11px]">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join Room Action -->
+        <button onclick="setScreen('room')" class="w-full py-3 rounded-xl bg-craft-dark text-white font-semibold text-sm hover:bg-black transition-all shadow-sm flex items-center justify-center gap-2">
+          <span>Enter Active Room</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 5: ROOM ACTIVE (IDE COLLAB) ================= -->
+    <section id="screen-room" class="screen-view hidden flex-1 flex flex-col h-[calc(100vh-53px)] bg-neutral-900 text-neutral-100">
+      <!-- Room Bar -->
+      <div class="h-12 border-b border-neutral-800 bg-neutral-950 px-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2 font-mono text-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-neutral-400">room:</span>
+            <strong class="text-white">a8f9-c2e1-4b7d</strong>
+          </div>
+          <div class="h-4 w-px bg-neutral-800"></div>
+          <!-- Language Selector -->
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="text-neutral-500">Lang:</span>
+            <select class="bg-neutral-900 border border-neutral-700 text-neutral-200 text-xs rounded-lg px-2 py-1 font-mono focus:outline-none">
+              <option>Python 3.12</option>
+              <option selected>TypeScript 5.4</option>
+              <option>Go 1.23</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Presence Avatars -->
+        <div class="flex items-center gap-3">
+          <div class="flex items-center -space-x-1.5 text-xs font-mono">
+            <div class="px-2.5 py-1 rounded-full bg-blue-600/30 border border-blue-500 text-blue-300 font-medium flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span> You (Interviewer)
+            </div>
+            <div class="px-2.5 py-1 rounded-full bg-amber-500/30 border border-amber-400 text-amber-300 font-medium flex items-center gap-1.5 ml-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Sarah (Candidate)
+            </div>
+          </div>
+
+          <div class="h-4 w-px bg-neutral-800"></div>
+
+          <!-- End Session Button -->
+          <button onclick="setScreen('scorecard')" class="px-3 py-1.5 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/50 text-rose-300 font-medium text-xs transition-colors">
+            End Session
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor & Console Workspace (Split) -->
+      <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+
+        <!-- CodeMirror 6 Editor Canvas -->
+        <div class="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-neutral-800 bg-[#0E1116] relative font-mono text-sm leading-relaxed overflow-y-auto">
+          <!-- Editor Tabs Bar -->
+          <div class="h-9 bg-neutral-950/70 border-b border-neutral-800 flex items-center justify-between px-3 text-xs text-neutral-400 select-none">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 bg-neutral-800 text-neutral-200 rounded border border-neutral-700">solution.ts</span>
+              <span class="text-[11px] text-neutral-500">Yjs Synchronized (CRDT)</span>
+            </div>
+            <span class="text-[10px] text-neutral-500">LF • UTF-8</span>
+          </div>
+
+          <!-- Code Lines Simulation -->
+          <div class="p-4 space-y-1 text-xs sm:text-sm">
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">1</span>
+              <span><span class="text-purple-400">interface</span> <span class="text-yellow-300">LRUCache</span>&lt;<span class="text-blue-300">K</span>, <span class="text-blue-300">V</span>&gt; {</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">2</span>
+              <span class="pl-4"><span class="text-blue-400">get</span>(key: <span class="text-blue-300">K</span>): <span class="text-blue-300">V</span> | <span class="text-orange-400">null</span>;</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">3</span>
+              <span class="pl-4"><span class="text-blue-400">put</span>(key: <span class="text-blue-300">K</span>, value: <span class="text-blue-300">V</span>): <span class="text-blue-300">void</span>;</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">4</span>
+              <span>}</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">5</span>
+              <span></span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">6</span>
+              <span><span class="text-purple-400">class</span> <span class="text-yellow-300">DoublyLinkedListNode</span> {</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">7</span>
+              <span class="pl-4 text-emerald-400">// Interviewer Cursor Here</span>
+            </div>
+            <div class="flex gap-4 relative">
+              <span class="text-neutral-600 select-none w-6 text-right">8</span>
+              <span class="pl-4"><span class="text-purple-400">constructor</span>(<span class="text-blue-400">public</span> key: <span class="text-cyan-400">number</span>, <span class="text-blue-400">public</span> val: <span class="text-cyan-400">number</span>) {}</span>
+              <!-- Remote Interviewer Cursor Pill -->
+              <span class="absolute left-80 -top-3 px-1.5 py-0.5 rounded bg-blue-600 text-[10px] text-white font-sans font-bold shadow pointer-events-none flex items-center gap-1">
+                <span>Dimas</span>
+              </span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">9</span>
+              <span>}</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">10</span>
+              <span></span>
+            </div>
+            <div class="flex gap-4 relative">
+              <span class="text-neutral-600 select-none w-6 text-right">11</span>
+              <span><span class="text-purple-400">export function</span> <span class="text-blue-400">solve</span>(capacity: <span class="text-cyan-400">number</span>) {</span>
+            </div>
+            <div class="flex gap-4 relative">
+              <span class="text-neutral-600 select-none w-6 text-right">12</span>
+              <span class="pl-4"><span class="text-purple-400">const</span> map = <span class="text-purple-400">new</span> <span class="text-yellow-300">Map</span>&lt;<span class="text-cyan-400">number</span>, <span class="text-yellow-300">DoublyLinkedListNode</span>&gt;();</span>
+              <!-- Candidate Remote Typing Cursor Pill -->
+              <span class="absolute left-96 top-0 w-0.5 h-5 bg-amber-400 animate-pulse"></span>
+              <span class="absolute left-96 -top-4 px-1.5 py-0.5 rounded bg-amber-500 text-[10px] text-black font-sans font-bold shadow pointer-events-none">
+                Sarah typing...
+              </span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">13</span>
+              <span class="pl-4 text-neutral-500">// TODO: O(1) eviction logic using head and tail sentinels</span>
+            </div>
+            <div class="flex gap-4">
+              <span class="text-neutral-600 select-none w-6 text-right">14</span>
+              <span>}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Execution Panel & Stdin/Stdout (Judge0) -->
+        <div class="w-full md:w-96 flex flex-col bg-neutral-950 border-t md:border-t-0 border-neutral-800">
+          <!-- Toolbar -->
+          <div class="p-3 border-b border-neutral-800 flex items-center justify-between bg-neutral-900/50">
+            <span class="text-xs font-semibold text-neutral-300 flex items-center gap-1.5">
+              <span>Console & Output</span>
+              <span class="text-[10px] text-neutral-500 font-mono font-normal">(Rate limit: 10/min)</span>
+            </span>
+            <button onclick="runCodeSimulation()" id="btn-run-code" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-all shadow flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+              <span>Run Code</span>
+            </button>
+          </div>
+
+          <!-- Stdin Input Box -->
+          <div class="p-3 border-b border-neutral-800">
+            <label class="block text-[11px] font-mono text-neutral-400 mb-1">Standard Input (stdin)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs font-mono text-neutral-300 focus:outline-none focus:border-neutral-700" placeholder="5&#10;put 1 100&#10;get 1"></textarea>
+          </div>
+
+          <!-- Stdout Output Console -->
+          <div class="flex-1 p-3 font-mono text-xs overflow-y-auto space-y-2" id="console-output">
+            <div class="text-neutral-500">[System] Judge0 public engine connected. Ready.</div>
+            <div class="text-emerald-400">&gt; Status: 200 OK (Execution Time: 34ms, Memory: 14.2MB)</div>
+            <div class="bg-neutral-900/80 p-2.5 rounded-lg border border-neutral-800 text-neutral-200">
+              <span class="text-neutral-500 select-none">stdout:</span><br>
+              Test Case 1: OK (LRU cache initialized with capacity 2)<br>
+              Put (1, 10) &rarr; Stored<br>
+              Put (2, 20) &rarr; Stored<br>
+              Get (1) &rarr; Returned 10 (Cache hit)<br>
+              Put (3, 30) &rarr; Evicted key 2
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 6: REPLAY ================= -->
+    <section id="screen-replay" class="screen-view hidden flex-1 flex flex-col h-[calc(100vh-53px)] bg-neutral-900 text-neutral-100">
+      <!-- Replay Header Strip -->
+      <div class="h-12 border-b border-neutral-800 bg-neutral-950 px-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <button onclick="setScreen('dashboard')" class="text-xs text-neutral-400 hover:text-white flex items-center gap-1">
+            &larr; Exit Replay
+          </button>
+          <div class="h-4 w-px bg-neutral-800"></div>
+          <span class="text-xs font-semibold text-neutral-200">Session Replay: <strong class="font-mono text-amber-400">Budi Pratama</strong></span>
+          <span class="text-[10px] bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded font-mono">1,482 Keystroke Deltas</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="setScreen('scorecard')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-all">
+            View Scorecard &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrubber Control Bar -->
+      <div class="h-14 border-b border-neutral-800 bg-neutral-900 px-6 flex items-center gap-4 shrink-0">
+        <button id="btn-play-pause" onclick="togglePlay()" class="w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow">
+          <span id="play-icon">▶</span>
+        </button>
+
+        <span class="font-mono text-xs text-neutral-300 w-24" id="scrubber-timestamp">18:24 / 45:10</span>
+
+        <!-- Scrubber Slider -->
+        <div class="flex-1 relative flex items-center">
+          <input type="range" id="replay-range" min="0" max="100" value="40" class="w-full h-1.5 bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+        </div>
+
+        <!-- Playback Speeds -->
+        <div class="flex items-center gap-1 craft-pill bg-neutral-800 p-1 rounded-lg text-xs font-mono">
+          <button class="px-2 py-0.5 rounded bg-neutral-700 text-white">1x</button>
+          <button class="px-2 py-0.5 rounded text-neutral-400 hover:text-white">2x</button>
+          <button class="px-2 py-0.5 rounded text-neutral-400 hover:text-white">5x</button>
+        </div>
+      </div>
+
+      <!-- Replay Editor Viewer -->
+      <div class="flex-1 flex overflow-hidden">
+        <!-- Code Content as of Scrub Timestamp -->
+        <div class="flex-1 bg-[#0E1116] p-6 font-mono text-sm leading-relaxed overflow-y-auto space-y-1">
+          <div class="text-neutral-500 text-xs mb-3 pb-2 border-b border-neutral-800 flex justify-between">
+            <span>Historical snapshot at T+18m 24s</span>
+            <span class="text-blue-400">Delta #582 by candidate</span>
+          </div>
+
+          <div class="flex gap-4">
+            <span class="text-neutral-600 select-none w-6 text-right">1</span>
+            <span><span class="text-purple-400">def</span> <span class="text-blue-400">find_median_sorted_arrays</span>(nums1: list[int], nums2: list[int]) -&gt; float:</span>
+          </div>
+          <div class="flex gap-4">
+            <span class="text-neutral-600 select-none w-6 text-right">2</span>
+            <span class="pl-4 text-neutral-500"># Candidate tried naive merge first, then refactored to binary search partition</span>
+          </div>
+          <div class="flex gap-4">
+            <span class="text-neutral-600 select-none w-6 text-right">3</span>
+            <span class="pl-4"><span class="text-purple-400">if</span> len(nums1) &gt; len(nums2):</span>
+          </div>
+          <div class="flex gap-4">
+            <span class="text-neutral-600 select-none w-6 text-right">4</span>
+            <span class="pl-8">nums1, nums2 = nums2, nums1</span>
+          </div>
+          <div class="flex gap-4 bg-emerald-950/40 border-l-2 border-emerald-500 pl-2 -ml-2">
+            <span class="text-neutral-600 select-none w-6 text-right">5</span>
+            <span class="pl-4"><span class="text-purple-400">m</span>, <span class="text-purple-400">n</span> = len(nums1), len(nums2)</span>
+          </div>
+          <div class="flex gap-4 bg-emerald-950/40 border-l-2 border-emerald-500 pl-2 -ml-2">
+            <span class="text-neutral-600 select-none w-6 text-right">6</span>
+            <span class="pl-4">low, high = 0, m</span>
+          </div>
+        </div>
+
+        <!-- Event Stream Log -->
+        <div class="w-80 border-l border-neutral-800 bg-neutral-950 p-4 font-mono text-xs overflow-y-auto hidden sm:block">
+          <div class="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-3">Timeline Events</div>
+          <div class="space-y-3">
+            <div class="p-2 rounded bg-neutral-900 border border-neutral-800">
+              <div class="text-[10px] text-neutral-500">00:00 — Room Started</div>
+              <div class="text-neutral-300">Interviewer pasted problem spec</div>
+            </div>
+            <div class="p-2 rounded bg-neutral-900 border border-neutral-800">
+              <div class="text-[10px] text-neutral-500">05:12 — Candidate Active</div>
+              <div class="text-neutral-300">Clarification questions asked</div>
+            </div>
+            <div class="p-2 rounded bg-blue-950/40 border border-blue-800/60">
+              <div class="text-[10px] text-blue-400">18:24 — Current Cursor</div>
+              <div class="text-blue-200">Refactoring naive loop to binary partition</div>
+            </div>
+            <div class="p-2 rounded bg-neutral-900 border border-neutral-800 opacity-60">
+              <div class="text-[10px] text-neutral-500">32:40 — Code Run #1</div>
+              <div class="text-neutral-300">Output: Test cases passed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 7: SCORECARD ================= -->
+    <section id="screen-scorecard" class="screen-view hidden flex-1 px-4 py-8 max-w-4xl mx-auto w-full">
+      <!-- Toggle Evaluator Form vs Public View -->
+      <div class="flex items-center justify-between mb-8 pb-4 border-b border-black/[0.08]">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-craft-dark">Candidate Scorecard</h1>
+          <p class="text-xs text-craft-subtle mt-0.5">Evaluate technical competency or preview public hiring manager link</p>
+        </div>
+        <div class="craft-pill p-1 rounded-xl flex text-xs font-semibold">
+          <button id="tab-scorecard-form" onclick="toggleScorecardView('form')" class="px-3 py-1.5 rounded-lg bg-white shadow-sm text-craft-dark transition-all">Interviewer Form</button>
+          <button id="tab-scorecard-public" onclick="toggleScorecardView('public')" class="px-3 py-1.5 rounded-lg text-craft-subtle transition-all">Public View (No-Auth)</button>
+        </div>
+      </div>
+
+      <!-- VIEW A: INTERVIEWER EVALUATOR FORM -->
+      <div id="scorecard-form-view" class="space-y-6">
+        <div class="craft-card p-6 rounded-2xl space-y-6">
+          <div class="flex items-center justify-between pb-4 border-b border-black/[0.06]">
+            <div>
+              <span class="text-xs text-craft-subtle">Candidate:</span>
+              <div class="font-bold text-base text-craft-dark">Sarah Jenkins</div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-craft-subtle">Position:</span>
+              <div class="font-semibold text-xs text-craft-dark">Senior Frontend / React Architect</div>
+            </div>
+          </div>
+
+          <!-- 4 Pillars Rating (1-5) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Problem Solving -->
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="font-semibold text-craft-dark">Problem Solving & Algorithms</span>
+                <span class="font-mono font-bold text-blue-600">4 / 5</span>
+              </div>
+              <input type="range" min="1" max="5" value="4" class="w-full accent-blue-600">
+              <p class="text-[11px] text-craft-subtle">Quickly broke down LRU cache requirements into Doubly Linked List + Hash Map.</p>
+            </div>
+
+            <!-- Code Quality -->
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="font-semibold text-craft-dark">Code Quality & Idioms</span>
+                <span class="font-mono font-bold text-blue-600">5 / 5</span>
+              </div>
+              <input type="range" min="1" max="5" value="5" class="w-full accent-blue-600">
+              <p class="text-[11px] text-craft-subtle">Clean TypeScript generics, zero `any` usage, sentinel nodes implemented properly.</p>
+            </div>
+
+            <!-- Communication -->
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="font-semibold text-craft-dark">Communication & Collaboration</span>
+                <span class="font-mono font-bold text-blue-600">4 / 5</span>
+              </div>
+              <input type="range" min="1" max="5" value="4" class="w-full accent-blue-600">
+              <p class="text-[11px] text-craft-subtle">Verbalized trade-offs before typing; receptive to interviewer hints.</p>
+            </div>
+
+            <!-- Execution Speed -->
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="font-semibold text-craft-dark">Execution Speed & Debugging</span>
+                <span class="font-mono font-bold text-blue-600">4 / 5</span>
+              </div>
+              <input type="range" min="1" max="5" value="4" class="w-full accent-blue-600">
+              <p class="text-[11px] text-craft-subtle">Finished working solution in 32 minutes; caught edge case on first run.</p>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="pt-2">
+            <label class="block text-xs font-semibold text-craft-dark mb-1.5">Interviewer Technical Notes</label>
+            <textarea rows="4" class="w-full p-3 rounded-xl border border-black/10 text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500/20" placeholder="Summarize candidate performance for the hiring manager...">Sarah demonstrated senior-level grasp of data structures under pressure. She self-corrected an edge case regarding capacity zero before running the Judge0 test suite. Highly recommended for final round.</textarea>
+          </div>
+
+          <!-- Submit / Generate Link -->
+          <div class="pt-4 border-t border-black/[0.06] flex items-center justify-between">
+            <span class="text-xs text-craft-subtle">Share Token: <code class="font-mono text-craft-dark">tok_94fa2e109bc8</code></span>
+            <button onclick="toggleScorecardView('public')" class="px-5 py-2.5 rounded-xl bg-craft-dark text-white font-semibold text-xs hover:bg-black transition-all shadow-sm">
+              Save & Generate Share Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW B: PUBLIC HIRING MANAGER READ-ONLY VIEW -->
+      <div id="scorecard-public-view" class="hidden space-y-6">
+        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span>🛡</span>
+            <span>Public No-Auth View: Accessible by hiring stakeholders via secure 32-character token.</span>
+          </div>
+          <span class="font-mono text-[11px] bg-white px-2 py-0.5 rounded border border-amber-300">token: tok_94fa2e109bc8</span>
+        </div>
+
+        <div class="craft-card p-8 rounded-3xl space-y-8">
+          <!-- Candidate Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-black/[0.06]">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-2">
+                ✓ Strong Hire Recommendation
+              </div>
+              <h2 class="text-2xl font-bold text-craft-dark">Sarah Jenkins</h2>
+              <p class="text-xs text-craft-subtle mt-0.5">Session: <span class="font-mono">a8f9-c2e1-4b7d</span> • Conducted by Dimas Arya Sadewa</p>
+            </div>
+            <button onclick="setScreen('replay')" class="px-4 py-2 rounded-xl bg-blue-50 text-blue-700 craft-border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-all flex items-center gap-1.5">
+              <span>⏮ Watch Session Replay</span>
+            </button>
+          </div>
+
+          <!-- Score Metrics Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="craft-pill p-4 rounded-2xl text-center">
+              <div class="text-[11px] font-medium text-craft-subtle uppercase tracking-wider">Problem Solving</div>
+              <div class="text-3xl font-bold font-mono text-craft-dark mt-1">4.0<span class="text-xs text-craft-subtle font-normal">/5</span></div>
+            </div>
+            <div class="craft-pill p-4 rounded-2xl text-center">
+              <div class="text-[11px] font-medium text-craft-subtle uppercase tracking-wider">Code Quality</div>
+              <div class="text-3xl font-bold font-mono text-craft-dark mt-1">5.0<span class="text-xs text-craft-subtle font-normal">/5</span></div>
+            </div>
+            <div class="craft-pill p-4 rounded-2xl text-center">
+              <div class="text-[11px] font-medium text-craft-subtle uppercase tracking-wider">Communication</div>
+              <div class="text-3xl font-bold font-mono text-craft-dark mt-1">4.0<span class="text-xs text-craft-subtle font-normal">/5</span></div>
+            </div>
+            <div class="craft-pill p-4 rounded-2xl text-center">
+              <div class="text-[11px] font-medium text-craft-subtle uppercase tracking-wider">Speed & Tests</div>
+              <div class="text-3xl font-bold font-mono text-craft-dark mt-1">4.0<span class="text-xs text-craft-subtle font-normal">/5</span></div>
+            </div>
+          </div>
+
+          <!-- Technical Feedback -->
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-craft-subtle mb-2">Evaluator Remarks</h3>
+            <div class="p-4 rounded-2xl bg-black/[0.02] craft-border text-xs leading-relaxed text-craft-dark font-sans">
+              "Sarah demonstrated senior-level grasp of data structures under pressure. She self-corrected an edge case regarding capacity zero before running the Judge0 test suite. Finished full clean TypeScript implementation within 32 minutes. Highly recommended for final round."
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SCRIPT: INTERACTIVE SCREEN TOGGLING -->
+  <script>
+    function setScreen(screenId) {
+      // Hide all screen views
+      document.querySelectorAll('.screen-view').forEach(el => {
+        el.classList.add('hidden');
+      });
+
+      // Show selected screen
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      // Update Nav Buttons
+      document.querySelectorAll('.screen-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-craft-dark', 'shadow-sm');
+        btn.classList.add('text-craft-subtle');
+      });
+
+      const activeBtn = document.getElementById(`nav-${screenId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white', 'text-craft-dark', 'shadow-sm');
+        activeBtn.classList.remove('text-craft-subtle');
+      }
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Auth screen tab switcher
+    function toggleAuthTab(mode) {
+      const isLogin = mode === 'login';
+      document.getElementById('auth-tab-login').className = isLogin
+        ? 'flex-1 py-2 rounded-lg bg-white shadow-sm text-craft-dark transition-all'
+        : 'flex-1 py-2 rounded-lg text-craft-subtle transition-all';
+      document.getElementById('auth-tab-register').className = !isLogin
+        ? 'flex-1 py-2 rounded-lg bg-white shadow-sm text-craft-dark transition-all'
+        : 'flex-1 py-2 rounded-lg text-craft-subtle transition-all';
+      
+      const nameField = document.getElementById('auth-field-name');
+      if (isLogin) {
+        nameField.classList.add('hidden');
+      } else {
+        nameField.classList.remove('hidden');
+      }
+    }
+
+    // Scorecard view switcher
+    function toggleScorecardView(view) {
+      const isForm = view === 'form';
+      document.getElementById('scorecard-form-view').classList.toggle('hidden', !isForm);
+      document.getElementById('scorecard-public-view').classList.toggle('hidden', isForm);
+
+      document.getElementById('tab-scorecard-form').className = isForm
+        ? 'px-3 py-1.5 rounded-lg bg-white shadow-sm text-craft-dark transition-all'
+        : 'px-3 py-1.5 rounded-lg text-craft-subtle transition-all';
+      document.getElementById('tab-scorecard-public').className = !isForm
+        ? 'px-3 py-1.5 rounded-lg bg-white shadow-sm text-craft-dark transition-all'
+        : 'px-3 py-1.5 rounded-lg text-craft-subtle transition-all';
+    }
+
+    // Replay play/pause toggle simulation
+    let isPlaying = false;
+    let playInterval = null;
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      document.getElementById('play-icon').textContent = isPlaying ? '⏸' : '▶';
+      const range = document.getElementById('replay-range');
+      if (isPlaying) {
+        playInterval = setInterval(() => {
+          let val = parseInt(range.value, 10);
+          if (val >= 100) {
+            isPlaying = false;
+            document.getElementById('play-icon').textContent = '▶';
+            clearInterval(playInterval);
+          } else {
+            range.value = val + 1;
+          }
+        }, 300);
+      } else {
+        clearInterval(playInterval);
+      }
+    }
+
+    // Code execution simulation
+    function runCodeSimulation() {
+      const btn = document.getElementById('btn-run-code');
+      const consoleOut = document.getElementById('console-output');
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Executing...`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg><span>Run Code</span>`;
+        btn.disabled = false;
+        
+        const timestamp = new Date().toLocaleTimeString();
+        consoleOut.innerHTML += `
+          <div class="mt-2 text-emerald-400">&gt; [${timestamp}] Judge0 Executed (Time: 28ms, Exit Code: 0)</div>
+          <div class="bg-neutral-900/80 p-2.5 rounded-lg border border-neutral-800 text-neutral-200">
+            All 5 test assertions passed.<br>
+            Time complexity: O(1) verified.<br>
+            Space complexity: O(capacity) verified.
+          </div>
+        `;
+        consoleOut.scrollTop = consoleOut.scrollHeight;
+      }, 700);
+    }
+  </script>
+</body>
+</html>
