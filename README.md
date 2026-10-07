@@ -2,6 +2,12 @@
 
 > Real-time collaborative coding interview platform featuring Yjs CRDT peer synchronization, isolated Judge0 code execution, keystroke replay scrubber, and public shareable scorecards without mandatory signup.
 
+
+
+<p align="center">
+  <img src="docs/screenshots/preview.png" alt="Application Preview" width="100%" style="border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);" />
+</p>
+
 ![Tests](https://img.shields.io/badge/PHPUnit-19%20passed%20(112%20assertions)-emerald?style=flat-square)
 ![E2E Tests](https://img.shields.io/badge/Playwright%20E2E-6%2F6%20Journeys%20Passed-blue?style=flat-square)
 ![CRDT Concurrency](https://img.shields.io/badge/Yjs%20CRDT-0%20Conflicts%20Verified-purple?style=flat-square)
